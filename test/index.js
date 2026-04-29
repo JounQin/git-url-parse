@@ -550,4 +550,12 @@ tester.describe("parse urls", test => {
         test.expect(res.ref).toBe("main");
         test.expect(res.filepath).toBe("folder/data.yaml");
     });
+
+    test.should("parse URL-encoded ref names without decoding path separators too early", () => {
+        var res = gitUrlParse("https://github.com/username/reponame/blob/chore%2Fupdate/README.md");
+        test.expect(res.owner).toBe("username");
+        test.expect(res.name).toBe("reponame");
+        test.expect(res.ref).toBe("chore/update");
+        test.expect(res.filepath).toBe("README.md");
+    });
 });
